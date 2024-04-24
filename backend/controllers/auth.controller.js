@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js'
+import generateTokenAndSetCookie from '../utils/generateToken.js'
 
 export const signup = async (req, res) => {
   try {
@@ -30,6 +31,7 @@ export const signup = async (req, res) => {
     })
 
     if (newUser) {
+      generateTokenAndSetCookie(newUser._id, res)
       await newUser.save()
 
       res.status(201).json({
@@ -42,19 +44,43 @@ export const signup = async (req, res) => {
     } else {
       res.status(400).json({ message: 'Invalid user data received' })
     }
-
   } catch (error) {
     console.log('Error in signup controller', error)
     res.status(500).json({ message: error.message })
   }
 }
 
-export const login = (req, res) => {
-  res.send('Login User')
-  console.log('Login User')
+export const login = async (req, res) => {
+  try {
+    const { username, password } = req.body
+    const user = await User.findOne({ username })
+    const isPasswordValid = await bcrypt.compare(password, user?.password || '')
+
+    if (!user || !isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid username or password' })
+    }
+
+    generateTokenAndSetCookie(user._id, res)
+
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      username: user.username,
+      gender: user.gender,
+      profilePic: user.profilePic
+    })
+  } catch (error) {
+    console.log('Error in login controller', error)
+    res.status(500).json({ message: error.message })
+  }
 }
 
 export const logout = (req, res) => {
-  res.send('Logout User')
-  console.log('Logout User')
+  try {
+    res.cookie('jwt', '', { maxAge: 0 })
+    res.status(200).json({ message: 'Logged out successfully' })
+  } catch (error) {
+    console.log('Error in logout controller', error)
+    res.status(500).json({ message: error.message })
+  }
 }
