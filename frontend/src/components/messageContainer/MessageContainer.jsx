@@ -1,24 +1,32 @@
-import Messages from "./Messages"
-import MessageInput from "./MessageInput"
-import { TiMessages } from "react-icons/ti"
+import Messages from "./Messages";
+import MessageInput from "./MessageInput";
+import { TiMessages } from "react-icons/ti";
+import useConversation from "../../zustand/useConversation";
+import { useEffect } from "react";
 
 function MessageContainer() {
-  const noChatSelected = true
+  const { selectedConversation, setSelectedConversation } = useConversation();
+
+  useEffect(() => () => setSelectedConversation(null), []);
+
   return (
     <div className="md:min-w-[450px] flex flex-col">
-      {noChatSelected ?
-      <NoChatSelected /> :
+      {selectedConversation ? (
         <>
           <div className="bg-slate-600 px-4 py-2 mb-2">
             <span className="label-text">To:</span>{" "}
-            <span className="text-gray-900 font-bold">Some Name other people</span>
+            <span className="text-gray-900 font-bold">
+              {selectedConversation?.fullName}
+            </span>
           </div>
           <Messages />
           <MessageInput />
         </>
-      }
+      ) : (
+        <NoChatSelected />
+      )}
     </div>
-  )
+  );
 }
 
 function NoChatSelected() {
@@ -30,7 +38,7 @@ function NoChatSelected() {
         <TiMessages className="text-3xl md:text-6xl text-center" />
       </div>
     </div>
-  )
+  );
 }
 
-export default MessageContainer
+export default MessageContainer;

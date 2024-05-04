@@ -1,4 +1,4 @@
-import Message from "./Message"
+import Message from "./Message";
 
 function Messages() {
   return (
@@ -16,7 +16,7 @@ function Messages() {
       <Message />
       <Message />
     </div>
-  )
+  );
 }
 
-export default Messages
+export default Messages;
