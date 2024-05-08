@@ -1,4 +1,4 @@
-import { useAuthContext } from "../../context/AuthContents";
+import { useAuthContext } from "../../context/AuthContext";
 import useConversation from "../../zustand/useConversation";
 import { extractTime } from "../../utils/extractTime";
 
@@ -12,6 +12,7 @@ function Message({ message }) {
     ? authUser.profilePic
     : selectedConversation?.profilePic;
   const bobbleBgColor = fromMe ? "bg-green-600" : "bg-red-500";
+  const shakeClass = message.shouldShake ? "shake" : "";
 
   return (
     <div className={`chat ${chatClassName}`}>
@@ -21,7 +22,9 @@ function Message({ message }) {
         </div>
       </div>
 
-      <div className={`chat-bubble text-white pb-2 ${bobbleBgColor}`}>
+      <div
+        className={`chat-bubble text-white pb-2 ${bobbleBgColor} ${shakeClass}`}
+      >
         {message.message}
       </div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
