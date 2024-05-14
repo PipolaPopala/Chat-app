@@ -1,5 +1,5 @@
-import Sidebar from "../../components/sidebar/Sidebar"
-import MessageContainer from "../../components/messageContainer/MessageContainer"
+import Sidebar from "../../components/sidebar/Sidebar";
+import MessageContainer from "../../components/messageContainer/MessageContainer";
 
 function Home() {
   return (
@@ -7,7 +7,7 @@ function Home() {
       <Sidebar />
       <MessageContainer />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
