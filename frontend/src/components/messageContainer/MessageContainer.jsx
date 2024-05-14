@@ -11,7 +11,7 @@ function MessageContainer() {
   useEffect(() => () => setSelectedConversation(null), []);
 
   return (
-    <div className="md:min-w-[450px] flex flex-col">
+    <div className="min-w-[300px] max-w-[500px] flex flex-col">
       {selectedConversation ? (
         <>
           <div className="bg-slate-600 px-4 py-2 mb-2">

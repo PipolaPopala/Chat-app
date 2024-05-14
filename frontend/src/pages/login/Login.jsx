@@ -2,6 +2,37 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 
+const readyMadeAccounts = [
+  {
+    fullName: "Anakin Skywalker",
+    username: "DartWeider",
+    password: "padmeamidala",
+    gender: "male",
+    avatar: `https://i.imgur.com/YW1sQUu.jpg`,
+  },
+  {
+    fullName: "Obi-Wan Kenobi",
+    username: "Kenobi",
+    password: "Maytheforcebewithyou",
+    gender: "male",
+    avatar: `https://i.imgur.com/2cw0btQ.jpg`,
+  },
+  {
+    fullName: "Leia Organa",
+    username: "Leia+Han=Love",
+    password: "OrganaTheBest",
+    gender: "female",
+    avatar: `https://i.imgur.com/FgbWpwn.jpg`,
+  },
+  {
+    fullName: "R2-D2",
+    username: "0100010",
+    password: "0100010000101",
+    gender: "male",
+    avatar: `https://i.imgur.com/Yf2xkS0.jpg`,
+  },
+];
+
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -10,6 +41,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(userName, password);
+  };
+
+  const choiceAccount = (userName, password) => {
+    setUserName(userName);
+    setPassword(password);
   };
 
   return (
@@ -63,6 +99,27 @@ function Login() {
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 mt-5">
+        <h1 className="text-2xl font-semibold text-center text-gray-300">
+          or login under a ready-made account:
+        </h1>
+
+        <div className="flex gap-10 mt-2 justify-center">
+          {readyMadeAccounts.map((account) => (
+            <div
+              title={account.fullName}
+              className="avatar btn btn-circle w-20 h-20 hover:drop-shadow-xl transition-all"
+              key={account.username}
+              onClick={() => choiceAccount(account.username, account.password)}
+            >
+              <div className="w-20 h-20 rounded-full">
+                <img src={account.avatar} alt="user avatar" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
